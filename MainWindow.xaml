@@ -1,0 +1,482 @@
+﻿
+<Window x:Class="POE2P.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cybersecurity Awareness Bot"
+        Height="780"
+        Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A0A0A">
+
+    <Window.Resources>
+        <Style x:Key="GreenBtn" TargetType="Button">
+            <Setter Property="Background" Value="#00AA44"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4" Padding="10,6">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#00CC55"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#008833"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DangerBtn" TargetType="Button">
+            <Setter Property="Background" Value="#AA2222"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4" Padding="8,5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#CC3333"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TabItemStyle" TargetType="TabItem">
+            <Setter Property="Background" Value="#1A1A1A"/>
+            <Setter Property="Foreground" Value="#00FF66"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#1A1A1A"/>
+            <Setter Property="Foreground" Value="#CCFFCC"/>
+            <Setter Property="BorderBrush" Value="#00AA44"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="CaretBrush" Value="#00FF66"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Grid.Row="0" Background="#0D1F0D"
+                BorderBrush="#00AA44" BorderThickness="0,0,0,2">
+            <Grid>
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center" Margin="20,0">
+                    <TextBlock Text="&#x1F6E1;" FontSize="28"
+                               VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="CYBERSECURITY AWARENESS BOT"
+                                   Foreground="#00FF66" FontSize="20"
+                                   FontWeight="Bold" FontFamily="Consolas"/>
+                        <TextBlock Text="Stay safe. Stay informed."
+                                   Foreground="#559955" FontSize="11"
+                                   FontFamily="Consolas"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button x:Name="btnVoice"
+                        Content="&#x1F50A; PLAY GREETING"
+                        Style="{StaticResource GreenBtn}"
+                        Width="140" Height="34"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,20,0"
+                        Click="btnVoice_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- TABS -->
+        <TabControl Grid.Row="1" Background="#0A0A0A"
+                    BorderThickness="0" Padding="0">
+
+            <!-- ===== TAB 1: CHAT ===== -->
+            <TabItem Header="&#x1F4AC;  Chat"
+                     Style="{StaticResource TabItemStyle}">
+                <Grid Background="#0A0A0A">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+
+                    <RichTextBox x:Name="rtbChat"
+                                 Grid.Row="0"
+                                 Margin="15,15,15,5"
+                                 Background="#0D0D0D"
+                                 Foreground="#00FF66"
+                                 FontFamily="Consolas"
+                                 FontSize="14"
+                                 IsReadOnly="True"
+                                 BorderBrush="#1A3A1A"
+                                 BorderThickness="1"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Padding="10"/>
+
+                    <Grid Grid.Row="1" Margin="15,5,15,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtInput"
+                                 Grid.Column="0"
+                                 Style="{StaticResource InputStyle}"
+                                 Margin="0,0,10,0"
+                                 FontFamily="Consolas"
+                                 KeyDown="txtInput_KeyDown"
+                                 VerticalContentAlignment="Center"/>
+                        <Button x:Name="btnSend"
+                                Grid.Column="1"
+                                Content="SEND"
+                                Style="{StaticResource GreenBtn}"
+                                Click="btnSend_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== TAB 2: TASKS ===== -->
+            <TabItem Header="&#x1F4CB;  Tasks"
+                     Style="{StaticResource TabItemStyle}">
+                <Grid Background="#0A0A0A" Margin="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="340"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Task List -->
+                    <Grid Grid.Column="0" Margin="0,0,10,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="MY CYBERSECURITY TASKS"
+                                   Foreground="#00FF66"
+                                   FontWeight="Bold" FontSize="15"
+                                   FontFamily="Consolas"
+                                   Margin="0,0,0,10"/>
+
+                        <ListBox x:Name="lstTasks"
+                                 Grid.Row="1"
+                                 Background="#0D0D0D"
+                                 Foreground="#CCFFCC"
+                                 BorderBrush="#1A3A1A"
+                                 BorderThickness="1"
+                                 FontFamily="Consolas"
+                                 FontSize="13"
+                                 SelectionChanged="lstTasks_SelectionChanged"/>
+
+                        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                                    Margin="0,10,0,0">
+                            <Button Content="Mark Complete"
+                                    Style="{StaticResource GreenBtn}"
+                                    Margin="0,0,8,0"
+                                    Click="btnMarkComplete_Click"/>
+                            <Button Content="Delete Task"
+                                    Style="{StaticResource DangerBtn}"
+                                    Click="btnDeleteTask_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Add Task Form -->
+                    <Border Grid.Column="1"
+                            Background="#0D1A0D"
+                            BorderBrush="#1A3A1A"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="ADD NEW TASK"
+                                       Foreground="#00FF66"
+                                       FontWeight="Bold" FontSize="14"
+                                       FontFamily="Consolas"
+                                       Margin="0,0,0,15"/>
+
+                            <TextBlock Text="Title" Foreground="#559955"
+                                       FontFamily="Consolas" FontSize="12"
+                                       Margin="0,0,0,4"/>
+                            <TextBox x:Name="txtTaskTitle"
+                                     Style="{StaticResource InputStyle}"
+                                     FontFamily="Consolas"
+                                     Margin="0,0,0,12"/>
+
+                            <TextBlock Text="Description" Foreground="#559955"
+                                       FontFamily="Consolas" FontSize="12"
+                                       Margin="0,0,0,4"/>
+                            <TextBox x:Name="txtTaskDesc"
+                                     Style="{StaticResource InputStyle}"
+                                     FontFamily="Consolas"
+                                     Height="70"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     Margin="0,0,0,12"/>
+
+                            <TextBlock Text="Reminder (days from now)"
+                                       Foreground="#559955"
+                                       FontFamily="Consolas" FontSize="12"
+                                       Margin="0,0,0,4"/>
+                            <TextBox x:Name="txtReminderDays"
+                                     Style="{StaticResource InputStyle}"
+                                     FontFamily="Consolas"
+                                     Margin="0,0,0,20"/>
+
+                            <Button Content="+ ADD TASK"
+                                    Style="{StaticResource GreenBtn}"
+                                    Height="40"
+                                    Click="btnAddTask_Click"/>
+
+                            <Border x:Name="pnlTaskDetail"
+                                    Background="#0A140A"
+                                    BorderBrush="#1A3A1A"
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    Padding="10"
+                                    Margin="0,20,0,0"
+                                    Visibility="Collapsed">
+                                <StackPanel>
+                                    <TextBlock Text="SELECTED TASK"
+                                               Foreground="#00AA44"
+                                               FontWeight="Bold"
+                                               FontFamily="Consolas"
+                                               FontSize="12"
+                                               Margin="0,0,0,8"/>
+                                    <TextBlock x:Name="lblTaskDetail"
+                                               Foreground="#AAFFAA"
+                                               FontFamily="Consolas"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== TAB 3: QUIZ ===== -->
+            <TabItem Header="&#x1F3AE;  Quiz"
+                     Style="{StaticResource TabItemStyle}">
+                <Grid Background="#0A0A0A" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Score bar -->
+                    <Border Grid.Row="0"
+                            Background="#0D1A0D"
+                            BorderBrush="#1A3A1A"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="12,8"
+                            Margin="0,0,0,15">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Score: "
+                                           Foreground="#559955"
+                                           FontFamily="Consolas"
+                                           FontSize="13"/>
+                                <TextBlock x:Name="lblScore"
+                                           Text="0"
+                                           Foreground="#00FF66"
+                                           FontFamily="Consolas"
+                                           FontSize="13"
+                                           FontWeight="Bold"/>
+                                <TextBlock x:Name="lblScoreTotal"
+                                           Text=" / 0"
+                                           Foreground="#559955"
+                                           FontFamily="Consolas"
+                                           FontSize="13"/>
+                            </StackPanel>
+                            <TextBlock x:Name="lblQuizProgress"
+                                       Text="Question 0 of 10"
+                                       Foreground="#559955"
+                                       FontFamily="Consolas"
+                                       FontSize="13"
+                                       HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Question -->
+                    <Border Grid.Row="1"
+                            Background="#0D1A0D"
+                            BorderBrush="#00AA44"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="20,15"
+                            Margin="0,0,0,15">
+                        <TextBlock x:Name="lblQuestion"
+                                   Text="Press START QUIZ to begin!"
+                                   Foreground="#00FF66"
+                                   FontFamily="Consolas"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+
+                    <!-- Answer Options -->
+                    <StackPanel x:Name="pnlAnswers"
+                                Grid.Row="2"
+                                Margin="0,0,0,15">
+                        <RadioButton x:Name="rdoA"
+                                     GroupName="Quiz"
+                                     Foreground="#CCFFCC"
+                                     FontFamily="Consolas"
+                                     FontSize="13"
+                                     Margin="0,5"
+                                     Padding="8,4"
+                                     Cursor="Hand"/>
+                        <RadioButton x:Name="rdoB"
+                                     GroupName="Quiz"
+                                     Foreground="#CCFFCC"
+                                     FontFamily="Consolas"
+                                     FontSize="13"
+                                     Margin="0,5"
+                                     Padding="8,4"
+                                     Cursor="Hand"/>
+                        <RadioButton x:Name="rdoC"
+                                     GroupName="Quiz"
+                                     Foreground="#CCFFCC"
+                                     FontFamily="Consolas"
+                                     FontSize="13"
+                                     Margin="0,5"
+                                     Padding="8,4"
+                                     Cursor="Hand"/>
+                        <RadioButton x:Name="rdoD"
+                                     GroupName="Quiz"
+                                     Foreground="#CCFFCC"
+                                     FontFamily="Consolas"
+                                     FontSize="13"
+                                     Margin="0,5"
+                                     Padding="8,4"
+                                     Cursor="Hand"/>
+                    </StackPanel>
+
+                    <!-- Feedback -->
+                    <Border x:Name="pnlFeedback"
+                            Grid.Row="3"
+                            Background="#0A140A"
+                            BorderBrush="#1A3A1A"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="15"
+                            Visibility="Collapsed">
+                        <TextBlock x:Name="lblFeedback"
+                                   Foreground="#AAFFAA"
+                                   FontFamily="Consolas"
+                                   FontSize="13"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+
+                    <!-- Buttons -->
+                    <StackPanel Grid.Row="4"
+                                Orientation="Horizontal"
+                                Margin="0,15,0,0">
+                        <Button x:Name="btnStartQuiz"
+                                Content="START QUIZ"
+                                Style="{StaticResource GreenBtn}"
+                                Height="40" Width="140"
+                                Margin="0,0,10,0"
+                                Click="btnStartQuiz_Click"/>
+                        <Button x:Name="btnSubmitAnswer"
+                                Content="SUBMIT ANSWER"
+                                Style="{StaticResource GreenBtn}"
+                                Height="40" Width="160"
+                                IsEnabled="False"
+                                Click="btnSubmitAnswer_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== TAB 4: ACTIVITY LOG ===== -->
+            <TabItem Header="&#x1F4DC;  Activity Log"
+                     Style="{StaticResource TabItemStyle}">
+                <Grid Background="#0A0A0A" Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <TextBlock Text="ACTIVITY LOG"
+                                   Foreground="#00FF66"
+                                   FontWeight="Bold" FontSize="15"
+                                   FontFamily="Consolas"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="lblLogCount"
+                                   Text="Showing last 10 entries"
+                                   Foreground="#559955"
+                                   FontFamily="Consolas" FontSize="12"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <ListBox x:Name="lstActivityLog"
+                             Grid.Row="1"
+                             Background="#0D0D0D"
+                             Foreground="#AAFFAA"
+                             BorderBrush="#1A3A1A"
+                             BorderThickness="1"
+                             FontFamily="Consolas"
+                             FontSize="13"
+                             Padding="5"/>
+
+                    <StackPanel Grid.Row="2"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <Button Content="Refresh Log"
+                                Style="{StaticResource GreenBtn}"
+                                Margin="0,0,10,0"
+                                Click="btnRefreshLog_Click"/>
+                        <Button Content="Show Full History"
+                                Style="{StaticResource GreenBtn}"
+                                Click="btnShowFullLog_Click"/>
+                        <Button Content="Clear Log"
+                                Style="{StaticResource DangerBtn}"
+                                Margin="10,0,0,0"
+                                Click="btnClearLog_Click"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+    </Window>
+
+
+    
+    
+    
